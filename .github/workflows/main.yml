@@ -11,7 +11,9 @@ jobs:
     steps:
       - name: Checkout the files
         uses: actions/checkout@v2
-
+      - name: Setup ec2 folder
+        run: |
+          cp build_2/main ec2/ 
       - name: Deploy to Server 1
         uses: easingthemes/ssh-deploy@v4.1.10
         env:
@@ -19,5 +21,5 @@ jobs:
           REMOTE_HOST: ${{ secrets.REMOTE_HOST }}
           REMOTE_USER: "ec2-user"
           # Limit the deploy to ONLY these files
-          SOURCE: "ec2/app.py" 
+          SOURCE: "ec2/*" 
           TARGET: "~/server"
