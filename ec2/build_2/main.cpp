@@ -11,7 +11,7 @@ using namespace lbcrypto;
 using namespace std;
 
 
-const std::string DATAFOLDER = "../data";
+const std::string DATAFOLDER = "/home/ec2-user/data";
 
 
 int main(int argc, char* argv[]) {
