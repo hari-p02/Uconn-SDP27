@@ -1,17 +1,12 @@
 from flask import Flask, request, jsonify
+import base64
 
 app = Flask(__name__)
 
 @app.route('/numbers', methods=['POST'])
 def handle_post():
-    if request.is_json:
-        json_data = request.get_json()
-
-        print(json_data)
-
-        return jsonify({"message": "Data received", "yourData": json_data}), 200
-    else:
-        return jsonify({"error": "Request must be JSON"}), 400
+    json = request.json
+    contents = base64.b64decode(json.loads(event['body'])['file-contents'])
 
 if __name__ == '__main__':
     app.run(host='0.0.0.0', port=5000)

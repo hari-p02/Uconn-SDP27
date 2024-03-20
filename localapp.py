@@ -27,5 +27,25 @@ def serilize(x, y):
         print("Execution failed.")
         print("Error:", result.stderr)
     
-    
+@app.route('/serilize', methods=['POST'])
+def handle_post():
+    try:
+        json = request.json
+        x, y = json['x'], json['y']
+        serilize(x, y)
+
+        payload = {
+            "ciphertext1": read_file_into_base64_string(folder_path + "/ciphertext1.txt"),
+            "ciphertext2": read_file_into_base64_string(folder_path + "/ciphertext2.txt"),
+            "key-eval-rot": read_file_into_base64_string(folder_path + "/key-eval-rot.txt"),
+            "key-public": read_file_into_base64_string(folder_path + "/key-public.txt"),
+            "cryptocontext": read_file_into_base64_string(folder_path + "/cryptocontext.txt"),
+            "key-eval-mult": read_file_into_base64_string(folder_path + "/key-eval-mult.txt")
+        }
+
+        requests.post("http://ec2-52-91-147-180.compute-1.amazonaws.com:5000/numbers", json=payload)
+        return jsonify({"message": "Data sent"}), 200
+    except:
+        return jsonify({"error": "Failure Occured"}), 400
+
 
