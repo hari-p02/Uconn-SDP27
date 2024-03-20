@@ -5,7 +5,7 @@ import requests
 
 app = Flask(__name__)
 
-folder_path = "/Users/haripat/Desktop/sdp/Uconn-SDP27/build_1/"
+folder_path = "/Users/haripat/Desktop/sdp/Uconn-SDP27/build_1"
 
 executable_name = "main"
 
@@ -20,6 +20,7 @@ def serilize(x, y):
     args = [x, y]
     command = [executable_path] + args
     result = subprocess.run(command, capture_output=True, text=True, cwd=folder_path)
+    print(result)
     if result.returncode == 0:
         print("Execution successful.")
         print("Output:", result.stdout)
@@ -32,8 +33,9 @@ def handle_post():
     try:
         json = request.json
         x, y = json['x'], json['y']
+        print("here")
         serilize(x, y)
-
+        print("here")
         payload = {
             "ciphertext1": read_file_into_base64_string(folder_path + "/ciphertext1.txt"),
             "ciphertext2": read_file_into_base64_string(folder_path + "/ciphertext2.txt"),
@@ -49,3 +51,5 @@ def handle_post():
         return jsonify({"error": "Failure Occured"}), 400
 
 
+if __name__ == '__main__':
+    app.run(host='0.0.0.0', port=3000)
